@@ -9,7 +9,7 @@ class Item:
 
 
 class Bin:
-    def __init__(self, bin_id: int, capacity: float = 1.0):
+    def __init__(self, bin_id: int, capacity: float = 1.00001):
         self.bin_id = bin_id
         self.capacity = capacity
         self.remaining_capacity = capacity

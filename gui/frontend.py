@@ -270,7 +270,7 @@ class BinPackingGUI:
                 label.config(text="")
             items_text = [
                 f"Bin ID: {bin.bin_id}",
-                f"Capacity: {bin.capacity}",
+                f"Capacity: {int(bin.capacity)}",
                 f"Remaining Capacity: {bin.remaining_capacity:.2f}",
                 f"Items: {len([item.id for item in bin.items])}"
             ]
