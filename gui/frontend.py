@@ -167,7 +167,7 @@ class BinPackingGUI:
         def _generate_data():
             self.generate_button.config(state=tk.DISABLED)
             self.show_data_button.config(state=tk.DISABLED)
-            self.items = generate_random_items(5000, 10)
+            self.items = generate_random_items(1000, 10)
             alert_window.withdraw()
             alert_window.destroy()
             try:
