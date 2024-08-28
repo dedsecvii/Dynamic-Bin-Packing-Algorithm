@@ -427,18 +427,17 @@ class BinPackingGUI:
             # Add the new test cases with repeating patterns
             pattern_1 = [0.3, 0.7, 0.9]
             pattern_2 = [0.8, 0.2, 0.3]
-            for ns in [10, 100]:
+            for ns in [10, 50, 100, 500, 1000, 5000, 10000]:
                 test_cases.extend([
                     ("Small items",ns,-1, create_items([random.uniform(0.1, 0.5) for _ in range(ns)])),
                     ("Large items",ns,-1,create_items([random.uniform(0.5, 1.0) for _ in range(ns)])),
                     ("Mixed items", ns, -1, create_random_items(ns)),
-                ("Repeating Pattern 1", ns, -1, create_pattern_items(ns, pattern_1)),
-                ("Repeating Pattern 2", ns, -1, create_pattern_items(ns, pattern_2)),
-                ("Varying Bin Capacity", ns, -1, create_items_with_varying_bin_capacity(ns)),
-
-                ("Highly Fragmented Items", ns, -1, create_fragmented_items(ns)),
+                    ("Repeating Pattern 1", ns, -1, create_pattern_items(ns, pattern_1)),
+                    ("Repeating Pattern 2", ns, -1, create_pattern_items(ns, pattern_2)),
+                    ("Varying Bin Capacity", ns, -1, create_items_with_varying_bin_capacity(ns)),
+                    ("Highly Fragmented Items", ns, -1, create_fragmented_items(ns)),
                 ])
-                for d in [10, 100, 1000, 10000, 50000]:
+                for d in [10, 50, 100, 500, 1000, 5000, 10000]:
                     test_cases.append(("Time-aware items", ns, d, create_time_aware_items(ns, d)))
                     test_cases.append(("Correlated Arrival and Departure", ns, d, create_correlated_items(ns, d)))
 
