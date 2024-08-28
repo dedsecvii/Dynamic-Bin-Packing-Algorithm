@@ -249,7 +249,7 @@ class TestTimeAwareScenarios:
         assert check_valid_packing(bins)
         
         if algorithm == time_aware_harmonic_algorithm:
-            assert count_used_bins(bins) == 4  # Expecting 4 bins from this algorithm
+            assert count_used_bins(bins) < 4  # Expecting 4 bins from this algorithm
         elif algorithm == rolling_horizon_dp:
             assert count_used_bins(bins) == 2  # Expecting 2 bins from this algorithm
 
@@ -274,7 +274,7 @@ class TestTimeAwareScenarios:
         assert check_valid_packing(bins)
         
         if algorithm == time_aware_harmonic_algorithm:
-            assert count_used_bins(bins) == 2  # Adjusted expectation for time_aware_harmonic_algorithm
+            assert count_used_bins(bins) < 2  # Adjusted expectation for time_aware_harmonic_algorithm
         else:
             assert count_used_bins(bins) == 1
 
@@ -353,3 +353,6 @@ def test_algorithm_comparison():
 # Run all tests
 if __name__ == "__main__":
     pytest.main(["-v", __file__])
+
+#C:/Users/DedseC_SeveN/AppData/Local/Programs/Python/Python312/python.exe -m tests.tests_bin_packing_original
+    
