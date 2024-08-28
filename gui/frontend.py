@@ -312,7 +312,7 @@ class BinPackingGUI:
         self.avg_items_per_bin_label.config(text=f"Avg Items per Bin: {round(avg_items_per_bin(bins) if current_bins > 0 else 0, 2)}")
         total_items= sum(len(bin.items) for bin in all_bins)
         avg_total_utilization=sum((1.0 - bin.remaining_capacity) for bin in all_bins) / total_bins if total_bins > 0 else 0
-        self.Efficiency_label.config(text=f"Efficiency: {round(avg_total_utilization*departed_items_percentage(all_bins) / ((total_bins / total_items)*(100000*runtime/(total_items*math.log(total_items,2))+0.00001)), 2)}")
+        self.Efficiency_label.config(text=f"Efficiency: {round(avg_total_utilization*departed_items_percentage(all_bins) / ((total_bins / total_items)*(1000000*runtime/(total_items*math.log(total_items,2))+0.00001)), 2)}")
         self.time_label.config(text=f"Runtime: {runtime:.2f}s")
 
     def upload_data(self):
