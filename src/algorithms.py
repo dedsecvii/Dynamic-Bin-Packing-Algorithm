@@ -125,7 +125,7 @@ def time_aware_harmonic_algorithm(items: List[Item], k: int = 5) -> List[Bin]:
 
     return bins
 
-def rolling_horizon_dp(items: List[Item], horizon: int = 10) -> List[Bin]:
+def rolling_horizon_dp(items: List[Item], horizon: int = 5) -> List[Bin]:
     # Sort items in descending order by size
     items.sort(key=lambda item: item.size, reverse=True)
     
