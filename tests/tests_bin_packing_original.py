@@ -3,7 +3,7 @@ import pytest
 from typing import List
 from src.models import Item, Bin 
 from src.algorithms import first_fit, next_fit, best_fit, worst_fit, sort_items_decreasing, first_fit_decreasing, best_fit_decreasing,\
-      next_fit_decreasing, worst_fit_decreasing, time_aware_harmonic_algorithm, rolling_horizon_dp
+      next_fit_decreasing, worst_fit_decreasing, greedy_size_first, rolling_horizon_dp
 
 # Helper functions for testing
 def create_items(sizes: List[float]) -> List[Item]:
@@ -75,14 +75,14 @@ def test_decreasing_order(algorithm):
     assert [item.size for item in sorted_items] == sorted_sizes
 
 # Tests for time-aware algorithms
-def test_time_aware_harmonic_algorithm():
+def test_greedy_size_first():
     items = [
         Item(0, 0.5, 0, 2),
         Item(1, 0.3, 1, 3),
         Item(2, 0.4, 0, 1),
         Item(3, 0.2, 2, 4)
     ]
-    bins = time_aware_harmonic_algorithm(items)
+    bins = greedy_size_first(items)
     assert check_valid_packing(bins)
     assert all(max(item.departure_time for item in bin.items) >= min(item.arrival_time for item in bin.items) for bin in bins)
 
@@ -102,7 +102,7 @@ def test_rolling_horizon_dp():
 @pytest.mark.parametrize("algorithm", [
     first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
     best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-    time_aware_harmonic_algorithm, rolling_horizon_dp
+    greedy_size_first, rolling_horizon_dp
 ])
 def test_all_items_full_size(algorithm):
     items = create_items([1.0, 1.0, 1.0])
@@ -117,7 +117,7 @@ def test_integration_varied_items():
     algorithms = [
         first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
         best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-        time_aware_harmonic_algorithm, rolling_horizon_dp
+        greedy_size_first, rolling_horizon_dp
     ]
     results = {}
     for algorithm in algorithms:
@@ -138,7 +138,7 @@ def test_integration_mixed_time_and_size():
         Item(4, 0.6, 1, 2),
         Item(5, 0.2, 0, 1)
     ]
-    algorithms = [time_aware_harmonic_algorithm, rolling_horizon_dp]
+    algorithms = [greedy_size_first, rolling_horizon_dp]
     results = {}
     
     for algorithm in algorithms:
@@ -176,7 +176,7 @@ def test_item_handling():
         Item(2, 0.4, 0, 1),
         Item(3, 0.2, 2, 4)
     ]
-    for algorithm in [time_aware_harmonic_algorithm, rolling_horizon_dp]:
+    for algorithm in [greedy_size_first, rolling_horizon_dp]:
         bins = algorithm(items)
         assert check_valid_packing(bins)
         for bin in bins:
@@ -190,7 +190,7 @@ import time
 @pytest.mark.parametrize("algorithm", [
     first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
     best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-    time_aware_harmonic_algorithm, rolling_horizon_dp
+    greedy_size_first, rolling_horizon_dp
 ])
 def test_algorithm_performance(algorithm):
     items = create_items([random.random() for _ in range(1000)])
@@ -212,7 +212,7 @@ def create_time_aware_items(n: int, max_days: int) -> List[Item]:
 @pytest.mark.parametrize("algorithm", [
     first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
     best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-    time_aware_harmonic_algorithm, rolling_horizon_dp
+    greedy_size_first, rolling_horizon_dp
 ])
 class TestAdvancedScenarios:
 
@@ -236,7 +236,7 @@ class TestAdvancedScenarios:
         assert count_used_bins(bins) <= 5
 
 # Specific tests for time-aware and rolling_horizon_dp algorithms
-@pytest.mark.parametrize("algorithm", [time_aware_harmonic_algorithm, rolling_horizon_dp])
+@pytest.mark.parametrize("algorithm", [greedy_size_first, rolling_horizon_dp])
 class TestTimeAwareScenarios:
     def test_non_overlapping_items(self, algorithm):
         items = [
@@ -248,7 +248,7 @@ class TestTimeAwareScenarios:
         bins = algorithm(items)
         assert check_valid_packing(bins)
         
-        if algorithm == time_aware_harmonic_algorithm:
+        if algorithm == greedy_size_first:
             assert count_used_bins(bins) < 4  # Expecting 4 bins from this algorithm
         elif algorithm == rolling_horizon_dp:
             assert count_used_bins(bins) == 2  # Expecting 2 bins from this algorithm
@@ -263,8 +263,8 @@ class TestTimeAwareScenarios:
         bins = algorithm(items)
         assert check_valid_packing(bins)
         
-        if algorithm == time_aware_harmonic_algorithm:
-            assert count_used_bins(bins) <= 4  # Adjusted expectation for time_aware_harmonic_algorithm
+        if algorithm == greedy_size_first:
+            assert count_used_bins(bins) <= 4  # Adjusted expectation for greedy_size_first
         else:
             assert count_used_bins(bins) <= 2
 
@@ -273,8 +273,8 @@ class TestTimeAwareScenarios:
         bins = algorithm(items)
         assert check_valid_packing(bins)
         
-        if algorithm == time_aware_harmonic_algorithm:
-            assert count_used_bins(bins) < 2  # Adjusted expectation for time_aware_harmonic_algorithm
+        if algorithm == greedy_size_first:
+            assert count_used_bins(bins) < 2  # Adjusted expectation for greedy_size_first
         else:
             assert count_used_bins(bins) == 1
 
@@ -289,8 +289,8 @@ class TestTimeAwareScenarios:
         bins = algorithm(items)
         assert check_valid_packing(bins)
         
-        if algorithm == time_aware_harmonic_algorithm:
-            assert count_used_bins(bins) <= 3  # Adjusted expectation for time_aware_harmonic_algorithm
+        if algorithm == greedy_size_first:
+            assert count_used_bins(bins) <= 3  # Adjusted expectation for greedy_size_first
         else:
             assert count_used_bins(bins) <= 2
 
@@ -299,10 +299,10 @@ class TestTimeAwareScenarios:
 @pytest.mark.parametrize("algorithm", [
     first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
     best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-    time_aware_harmonic_algorithm, rolling_horizon_dp
+    greedy_size_first, rolling_horizon_dp
 ])
 def test_large_input(algorithm):
-    if algorithm.__name__ == "time_aware_harmonic_algorithm":
+    if algorithm.__name__ == "greedy_size_first":
         # Reduce the size of input specifically for this algorithm due to time complexity
         items = create_random_items(3000)  # Adjusted input size
     else:
@@ -320,7 +320,7 @@ def test_algorithm_comparison():
     algorithms = [
         first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing, 
         best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-        time_aware_harmonic_algorithm, rolling_horizon_dp
+        greedy_size_first, rolling_horizon_dp
     ]
     
     test_cases = [

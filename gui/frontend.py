@@ -17,7 +17,7 @@ from src.utils import compare_algorithms, departed_items_percentage, generate_ra
 from tests.tests_bin_packing_updated import create_correlated_items,avg_items_per_bin,avg_bin_utilization, create_fragmented_items, create_items, \
     create_items_with_varying_bin_capacity, create_random_items, create_time_aware_items, count_used_bins, create_pattern_items
 from src.algorithms import first_fit, next_fit, best_fit, worst_fit, sort_items_decreasing, first_fit_decreasing, best_fit_decreasing,\
-      next_fit_decreasing, worst_fit_decreasing, time_aware_harmonic_algorithm, rolling_horizon_dp
+      next_fit_decreasing, worst_fit_decreasing, greedy_size_first, rolling_horizon_dp
 
 
 class BinPackingGUI:
@@ -37,7 +37,7 @@ class BinPackingGUI:
             "Next Fit Decreasing": next_fit_decreasing,
             "Best Fit Decreasing": best_fit_decreasing,
             "Worst Fit Decreasing": worst_fit_decreasing,
-            "Time Aware Harmonic Algorithm": time_aware_harmonic_algorithm,
+            "Greedy Size-First": greedy_size_first,
             "Rolling Horizon DP": rolling_horizon_dp,
         }
 
@@ -421,7 +421,7 @@ class BinPackingGUI:
             algorithms = [
                 first_fit, next_fit, best_fit, worst_fit, first_fit_decreasing,
                 best_fit_decreasing, next_fit_decreasing, worst_fit_decreasing,
-                time_aware_harmonic_algorithm, rolling_horizon_dp ]
+                greedy_size_first, rolling_horizon_dp ]
 
             test_cases = []
             # Add the new test cases with repeating patterns

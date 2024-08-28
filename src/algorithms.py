@@ -90,7 +90,7 @@ def next_fit_decreasing(items: List[Item]) -> List[Bin]:
     sorted_items = sort_items_decreasing(items)
     return next_fit(sorted_items)
 
-def time_aware_harmonic_algorithm(items: List[Item], k: int = 5) -> List[Bin]:
+def greedy_size_first(items: List[Item], k: int = 5) -> List[Bin]:
     # Sort items by departure time, then by size (descending)
     sorted_items = sorted(items, key=lambda x: (-x.size))
 
