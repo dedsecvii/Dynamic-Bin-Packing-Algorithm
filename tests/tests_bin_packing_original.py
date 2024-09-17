@@ -235,7 +235,7 @@ class TestAdvancedScenarios:
         assert check_valid_packing(bins)
         assert count_used_bins(bins) <= 5
 
-# Specific tests for time-aware and rolling_horizon_dp algorithms
+# Specific tests for greedy size-first and rolling_horizon_dp algorithms
 @pytest.mark.parametrize("algorithm", [greedy_size_first, rolling_horizon_dp])
 class TestTimeAwareScenarios:
     def test_non_overlapping_items(self, algorithm):
